@@ -5,13 +5,13 @@ header {
 	text-align: center;
 }
 
-header h1{
+header h1 {
 	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 	font-size: 60px;
 	font-weight: bold;
 }
 
-header #newgamebutton{
+header #newgamebutton {
 	display: block;
 	margin: 20px auto;
 
@@ -27,18 +27,18 @@ header #newgamebutton{
 	text-decoration: none;
 }
 
-header #newgamebutton:hover{
+header #newgamebutton:hover {
 	background-color: #9f8b77;
 }
 
-header p{
+header p {
 	margin: 20px auto;
 
 	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 	font-size: 25px;
 }
 
-#grid-container{
+#grid-container {
 	margin: 50px auto;
 	background-color: #bbada0;
 
@@ -48,7 +48,7 @@ header p{
 	border-radius: 10px;
 }
 
-.grid-cell{
+.grid-cell {
 	position: absolute;
 	
 	width: 100px;
@@ -57,7 +57,7 @@ header p{
 	background-color: #ccc0b3;
 }
 
-.number-cell{
+.number-cell {
 	position: absolute;
 	
 	border-style: 6px;

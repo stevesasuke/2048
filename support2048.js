@@ -1,14 +1,15 @@
 function getMarTop (line, row) {
-	// console.log("into getMarTop");
+	// 取得正确的margin-top值
 	return 20 + line*120;
 }
 
 function getMarLeft (line, row) {			
-	// console.log("into for for getMarLeft");
+	// 取得正确的margin-left值
 	return 20 + row*120;
 }
 
 function getNumberBackgroundColor ( number ) {
+	// 取得正确的数字背景颜色
 	switch	( number ) {
 		case 2: return "#eee4da"; break;
 		case 4: return "#ede0c8"; break;
@@ -29,6 +30,7 @@ function getNumberBackgroundColor ( number ) {
 }
 
 function getNumberColor ( number ) {
+	// 取得正确的数字颜色
 	if ( number <= 4 ) {
 		return "#776e65";
 	}
@@ -37,7 +39,7 @@ function getNumberColor ( number ) {
 }
 
 function nospace ( board ) {
-	
+	// 判断是否还有空间
 	for (var i = 0; i < 4; i++) {
 		for (var j = 0; j < 4; j++) {
 			if ( board[i][j] == 0 ) {
@@ -50,9 +52,9 @@ function nospace ( board ) {
 }
 
 function canMoveLeft ( board ) {
-	
+	// 判断是否能够向左移动
 	for (var i = 0; i < 4; i++) {
-		for (var j = 0; j < 4; j++) {
+		for (var j = 1; j < 4; j++) {
 			if ( board[i][j] != 0 ) {
 				if ( board[i][j-1]==0 || board[i][j-1]==board[i][j] ) {
 					return true;
@@ -64,8 +66,53 @@ function canMoveLeft ( board ) {
 	return false;
 }
 
+function canMoveRight ( board ) {
+	// 判断是否能够向右移动
+	for (var i = 0; i < 4; i++) {
+		for (var j = 2; j >= 0; j--) {
+			if ( board[i][j] != 0 ) {
+				if ( board[i][j+1]==0 || board[i][j+1]==board[i][j] ) {
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
+function canMoveUp ( board ) {
+	// 判断是否能够向上移动
+	for (var i = 1; i < 4; i++) {
+		for (var j = 0; j < 4; j++) {
+			if ( board[i][j] != 0 ) {
+				if ( board[i-1][j]==0 || board[i-1][j]==board[i][j] ) {
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
+function canMoveDown ( board ) {
+	// 判断是否能够向下移动
+	for (var i = 2; i >= 0; i--) {
+		for (var j = 0; j < 4; j++) {
+			if ( board[i][j] != 0 ) {
+				if ( board[i+1][j]==0 || board[i+1][j]==board[i][j] ) {
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
 function noBlockHorizontal ( row, col1, col2, board ) {
-	
+	// 判断在水平方向上，从col1到col2是否有障碍（不等于0）
 	for (var i = col1+1; i < col2; i++) {
 		if ( board[row][i] != 0 ) {
 			return false;
@@ -74,6 +121,27 @@ function noBlockHorizontal ( row, col1, col2, board ) {
 
 	return true;
 }
+
+function noBlockVertical ( col, row1, row2, board ) {
+	// 判断在垂直方向上，从row1到row2是否有障碍（不等于0）
+	for (var i = row1+1; i < row2; i++) {
+		if ( board[i][col] != 0 ) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+function nomove ( board ) {
+	// 
+	if ( canMoveDown(board) || canMoveLeft(board) || 
+		canMoveRight(board) || canMoveUp(board)) {
+		return false;
+	}
+	return true;
+}
+
 
 
 
