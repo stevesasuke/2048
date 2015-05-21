@@ -33,7 +33,7 @@ $(document).ready(function() {
 		var deltax = endx - startx;
 		var deltay = endy - starty;
 
-		if ( Math.abs( deltax ) < 0.3*documentWidth && Math.abs( deltay ) < 0.3*documentWidth ) {
+		if ( Math.abs( deltax ) < 0.1*documentWidth && Math.abs( deltay ) < 0.1*documentWidth ) {
 			// 解决点击造成移动的bug
 			// console.log("click");
 			return;
