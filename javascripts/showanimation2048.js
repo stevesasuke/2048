@@ -1,6 +1,6 @@
 function showNumberWithAnimation ( i, j, randNumber) {
 	// 数字显示的动画效果
-	console.log("into showNumberWithAnimation");
+	// console.log("into showNumberWithAnimation");
 	var numberCell = $('#number-cell-' + i + "-" + j);
 	// console.log("numberCell is", numberCell);
 

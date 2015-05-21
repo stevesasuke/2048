@@ -9,6 +9,76 @@ var endx = 0;
 var endy = 0;
 
 $(document).ready(function() {
+
+	var gridContainer = document.getElementById('grid-container');
+
+	gridContainer.addEventListener( 'touchstart', function (event) {
+		console.log("into touchstart");
+		startx = event.touches[0].pageX;
+		starty = event.touches[0].pageY;
+
+		event.preventDefault();
+	});
+
+	gridContainer.addEventListener( 'touchmove', function (event) {
+		console.log("into touchmove");
+		event.preventDefault();
+	});
+
+	gridContainer.addEventListener( 'touchend', function (event) {
+		console.log("into touchend");
+		endx = event.changedTouches[0].pageX;
+		endy = event.changedTouches[0].pageY;
+
+		var deltax = endx - startx;
+		var deltay = endy - starty;
+
+		if ( Math.abs( deltax ) < 0.3*documentWidth && Math.abs( deltay ) < 0.3*documentWidth ) {
+			// 解决点击造成移动的bug
+			// console.log("click");
+			return;
+		}
+
+		if ( Math.abs( deltax ) >= Math.abs( deltay ) ) {
+			// 水平方向滑动
+			if ( deltax > 0 ) {
+				// 向右滑动
+				// console.log("into RIGHT");
+				if ( moveRight() ) {
+					setTimeout("generateOneNumber()", 210);
+					setTimeout("isGameOver()", 300);
+				}
+			}
+			else {
+				// 向左滑动
+				// console.log("into LEFT");
+				if ( moveLeft() ) {
+					setTimeout("generateOneNumber()", 210);
+					setTimeout("isGameOver()", 300);
+				}
+			}
+		}
+		else {
+			// 垂直方向滑动
+			if ( deltay > 0 ) {
+				// 向下滑动
+				// console.log("into DOWN");
+				if ( moveDown() ) {
+					setTimeout("generateOneNumber()", 210);
+					setTimeout("isGameOver()", 300);
+				}
+			}
+			else {
+				// 向上滑动
+				// console.log("into UP");
+				if ( moveUp() ) {
+					setTimeout("generateOneNumber()", 210);
+					setTimeout("isGameOver()", 300);
+				}
+			}
+		}
+	});
+
 	prepareForMobile();
 	newgame();
 });
@@ -48,72 +118,10 @@ $(document).keydown( function( event ) {
 	}
 });
 
-var gridContainer = $('#grid-container');
-
-gridContainer.addEventListener('touchstart', function (event) {
-	startx = event.touches[0].clientX;
-	starty = event.touches[0].clientY;
-
-	event.preventDefault();
-});
-
-gridContainer.addEventListener('touchend', function (event) {
-	endx = event.changedTouches[0].clientX;
-	endy = event.changedTouches[0].clientY;
-
-	var deltax = endx - startx;
-	var deltay = endy - starty;
-
-	if ( Math.abs( deltax ) < 0.3*documentWidth && Math.abs( deltay ) < 0.3*documentWidth ) {
-		// 解决点击造成移动的bug
-		console.log("click");
-		return;
-	}
-
-	if ( Math.abs( deltax ) >= Math.abs( deltay ) ) {
-		// 水平方向滑动
-		if ( deltax > 0 ) {
-			// 向右滑动
-			console.log("into RIGHT");
-			if ( moveRight() ) {
-				setTimeout("generateOneNumber()", 210);
-				setTimeout("isGameOver()", 300);
-			}
-		}
-		else {
-			// 向左滑动
-			console.log("into LEFT");
-			if ( moveLeft() ) {
-				setTimeout("generateOneNumber()", 210);
-				setTimeout("isGameOver()", 300);
-			}
-		}
-	}
-	else {
-		// 垂直方向滑动
-		if ( deltay > 0 ) {
-			// 向下滑动
-			console.log("into DOWN");
-			if ( moveDown() ) {
-				setTimeout("generateOneNumber()", 210);
-				setTimeout("isGameOver()", 300);
-			}
-		}
-		else {
-			// 向上滑动
-			console.log("into UP");
-			if ( moveUp() ) {
-				setTimeout("generateOneNumber()", 210);
-				setTimeout("isGameOver()", 300);
-			}
-		}
-	}
-});
-
 function prepareForMobile () {
 	// 
 
-	console.log("into func prepareForMobile");
+	// console.log("into func prepareForMobile");
 
 	if ( documentWidth > 500 ) {
 		gridContainerWidth = 500;
@@ -166,7 +174,7 @@ function init () {
 function updateBoardView () {
 	// 根据board数组中的数字更新前端界面：双重循环...
 
-	console.log("into updateBoardView");
+	// console.log("into updateBoardView");
 	$(".number-cell").remove();
 
 	for (var i = 0; i < 4; i++) {
@@ -214,10 +222,10 @@ function generateOneNumber () {
 	// 		3. 随意一个数字：2或4；
 	// 		4. 动画显示之...
 
-	console.log("into generateOneNumber");
+	// console.log("into generateOneNumber");
 
 	boardSpace = refreshBoardSpace( board, boardSpace );
-	console.log("boardSpace: ", boardSpace);
+	// console.log("boardSpace: ", boardSpace);
 	if ( boardSpace.length == 0 ) {
 		return false;
 	}
