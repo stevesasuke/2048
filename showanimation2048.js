@@ -2,15 +2,15 @@ function showNumberWithAnimation ( i, j, randNumber) {
 	// 数字显示的动画效果
 	console.log("into showNumberWithAnimation");
 	var numberCell = $('#number-cell-' + i + "-" + j);
-	console.log("numberCell is", numberCell);
+	// console.log("numberCell is", numberCell);
 
 	numberCell.css('background-color', getNumberBackgroundColor( randNumber ));
 	numberCell.css('color', getNumberColor( randNumber ));
 	numberCell.text( randNumber );
 
 	numberCell.animate({
-		width: "100px",
-		height: "100px",
+		width: cellSideLength,
+		height: cellSideLength,
 		marginTop: getMarTop( i, j ),
 		marginLeft: getMarLeft( i, j )
 	}, 50);

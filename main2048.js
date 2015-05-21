@@ -1,45 +1,130 @@
 var board = new Array();
-var score = 0;
 var hasConflicted = new Array();
+var boardSpace = new Array();
+var score = 0;
 
+var startx = 0;
+var starty = 0;
+var endx = 0;
+var endy = 0;
 
 $(document).ready(function() {
+	prepareForMobile();
 	newgame();
 });
 
 $(document).keydown( function( event ) {
-		switch ( event.keyCode ) {
-			case 37: //left
-				if ( moveLeft() ) {
-					setTimeout("generateOneNumber()", 210);
-					setTimeout("isGameOver()", 300);
-				}
-				break;
-			case 38: //up
-				if ( moveUp() ) {
-					setTimeout("generateOneNumber()", 210);
-					setTimeout("isGameOver()", 300);
-				}
-
-				break;
-			case 39: //right
-				if ( moveRight() ) {
-					setTimeout("generateOneNumber()", 210);
-					setTimeout("isGameOver()", 300);
-				}
-
-				break;
-			case 40: //down
-				if ( moveDown() ) {
-					setTimeout("generateOneNumber()", 210);
-					setTimeout("isGameOver()", 300);
-				}
-
-				break;
-			default:
-				break;
-		}
+	switch ( event.keyCode ) {
+		case 37: //left
+			event.preventDefault();
+			if ( moveLeft() ) {
+				setTimeout("generateOneNumber()", 210);
+				setTimeout("isGameOver()", 300);
+			}
+			break;
+		case 38: //up
+			event.preventDefault();
+			if ( moveUp() ) {
+				setTimeout("generateOneNumber()", 210);
+				setTimeout("isGameOver()", 300);
+			}
+			break;
+		case 39: //right
+			event.preventDefault();
+			if ( moveRight() ) {
+				setTimeout("generateOneNumber()", 210);
+				setTimeout("isGameOver()", 300);
+			}
+			break;
+		case 40: //down
+			event.preventDefault();
+			if ( moveDown() ) {
+				setTimeout("generateOneNumber()", 210);
+				setTimeout("isGameOver()", 300);
+			}
+			break;
+		default:
+			break;
+	}
 });
+
+document.addEventListener('touchstart', function (event) {
+	startx = event.touches[0].pageX;
+	starty = event.touches[0].pageY;
+});
+
+document.addEventListener('touchend', function (event) {
+	endx = event.changedTouches[0].pageX;
+	endy = event.changedTouches[0].pageY;
+
+	var deltax = endx - startx;
+	var deltay = endy - starty;
+
+	if ( Math.abs( deltax ) < 0.3*documentWidth && Math.abs( deltay ) < 0.3*documentWidth ) {
+		// 解决点击造成移动的bug
+		console.log("click");
+		return;
+	}
+
+	if ( Math.abs( deltax ) >= Math.abs( deltay ) ) {
+		// 水平方向滑动
+		if ( deltax > 0 ) {
+			// 向右滑动
+			console.log("into RIGHT");
+			if ( moveRight() ) {
+				setTimeout("generateOneNumber()", 210);
+				setTimeout("isGameOver()", 300);
+			}
+		}
+		else {
+			// 向左滑动
+			console.log("into LEFT");
+			if ( moveLeft() ) {
+				setTimeout("generateOneNumber()", 210);
+				setTimeout("isGameOver()", 300);
+			}
+		}
+	}
+	else {
+		// 垂直方向滑动
+		if ( deltay > 0 ) {
+			// 向下滑动
+			console.log("into DOWN");
+			if ( moveDown() ) {
+				setTimeout("generateOneNumber()", 210);
+				setTimeout("isGameOver()", 300);
+			}
+		}
+		else {
+			// 向上滑动
+			console.log("into UP");
+			if ( moveUp() ) {
+				setTimeout("generateOneNumber()", 210);
+				setTimeout("isGameOver()", 300);
+			}
+		}
+	}
+});
+
+function prepareForMobile () {
+	// 
+
+	console.log("into func prepareForMobile");
+
+	if ( documentWidth > 500 ) {
+		gridContainerWidth = 500;
+		cellSpace = 20;
+		cellSideLength = 100;
+	}
+
+	$('#grid-container').css('width', gridContainerWidth);
+	$('#grid-container').css('height', gridContainerWidth);
+	$('#grid-container').css('border-radius', 0.02*gridContainerWidth);
+
+	$('.grid-cell').css('width', cellSideLength);
+	$('.grid-cell').css('height', cellSideLength);
+	$('.grid-cell').css('border-radius', 0.02*cellSideLength);
+}
 
 function newgame() {
 	// 初始化棋盘格，在随机的两个格子生成数字
@@ -56,7 +141,7 @@ function init () {
 		for (var j = 0; j < 4; j++) {
 			var gridCell = $("#grid-cell-"+i+"-"+j);
 			gridCell.css('margin-top', getMarTop( i, j ));
-			gridCell.css('margin-left', getMarLeft( i, j ));			
+			gridCell.css('margin-left', getMarLeft( i, j ));	
 		}
 	}
 
@@ -86,53 +171,61 @@ function updateBoardView () {
 
 			var theNumberCell = $('#number-cell-'+i+'-'+j);
 
-			if (board[i][j] == 0) {
+			if ( board[i][j] == 0 ) {
 				theNumberCell.css('width', '0px');
 				theNumberCell.css('height', '0px');
-				theNumberCell.css('margin-top', getMarTop( i, j )+50);
-				theNumberCell.css('margin-left', getMarLeft( i, j )+50);
+				theNumberCell.css('margin-top', getMarTop( i, j )+cellSideLength/2);
+				theNumberCell.css('margin-left', getMarLeft( i, j )+cellSideLength/2);
 			} 
 			else {
-				theNumberCell.css('width', '100px');
-				theNumberCell.css('height', '100px');
+				theNumberCell.css('width', cellSideLength+'px');
+				theNumberCell.css('height', cellSideLength+'px');
 				theNumberCell.css('margin-top', getMarTop( i, j ));
 				theNumberCell.css('margin-left', getMarLeft( i, j ));
 				theNumberCell.css('background-color', getNumberBackgroundColor( board[i][j]) );
 				theNumberCell.css('color', getNumberColor( board[i][j]) );
 				theNumberCell.text( board[i][j] );
+
+				if ( board[i][j] > 64 && board[i][j] < 1024 ) {
+					// 3位数时，将字号调小
+					theNumberCell.css('font-size', '38px');
+				} 
+				else if ( board[i][j] > 512 ) {
+					// 4位数时，将字号调更小0.0
+					theNumberCell.css('font-size', '36px');
+				}
 			}
 			hasConflicted[i][j] = false;
 		}
 	}
+
+	$('.number-cell').css('line-height', cellSideLength+'px');
+	$('.number-cell').css('font-size', 0.6*cellSideLength+'px');	
 }
 
 function generateOneNumber () {
 	// 在棋盘格中生成一个数字： 
-	// 		1. 利用nospace函数判断是否有空间；
+	// 		1. 更新boardSpace，之后利用boardSpace数组的长度判断是否有空间；
 	// 		2. 随机一个能够放置新数字的位置；
 	// 		3. 随意一个数字：2或4；
 	// 		4. 动画显示之...
 
 	console.log("into generateOneNumber");
-	if ( nospace( board )) {
+
+	boardSpace = refreshBoardSpace( board, boardSpace );
+	console.log("boardSpace: ", boardSpace);
+	if ( boardSpace.length == 0 ) {
 		return false;
 	}
 
 	// 随机一个位置
-	var randx = parseInt(Math.floor(Math.random() * 4));
-	var randy = parseInt(Math.floor(Math.random() * 4));
-
-	while ( true ) {
-		if ( board[randx][randy] == 0 ) {
-			break;
-		}
-		var randx = parseInt(Math.floor(Math.random() * 4));
-		var randy = parseInt(Math.floor(Math.random() * 4));
-	}
+	var rand_num = randSpace( boardSpace );
+	var randx = Math.floor( rand_num / 4 );
+	var randy = rand_num % 4;
 
 	// 随机一个数字
 	var randNumber = Math.random() < 0.5 ? 2 : 4;
-	console.log("the randNumber is", randNumber);
+	// console.log("randNumber: ", randNumber);
 	board[randx][randy] = randNumber;
 
 	showNumberWithAnimation( randx, randy, randNumber );
@@ -332,6 +425,7 @@ function isGameOver () {
 
 function gameover () {
 	// 当前游戏已结束
+
 	alert("0.0,游戏结束了... ╮(╯▽╰)╭")
 }
 

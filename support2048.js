@@ -1,11 +1,22 @@
+
+
+documentWidth = window.screen.availWidth; 
+gridContainerWidth = 0.92 * documentWidth;
+cellSideLength = 0.18 * documentWidth;
+cellSpace = 0.04 * documentWidth;
+
+console.log("gridContainerWidth: ", gridContainerWidth);
+console.log("cellSideLength: ", cellSideLength);
+console.log("cellSpace: ", cellSpace);
+
 function getMarTop (line, row) {
 	// 取得正确的margin-top值
-	return 20 + line*120;
+	return cellSpace + line*( cellSpace + cellSideLength );
 }
 
-function getMarLeft (line, row) {			
+function getMarLeft (line, row) {	
 	// 取得正确的margin-left值
-	return 20 + row*120;
+	return cellSpace + row*( cellSpace + cellSideLength );
 }
 
 function getNumberBackgroundColor ( number ) {
@@ -51,6 +62,31 @@ function nospace ( board ) {
 	return true;
 }
 
+function refreshBoardSpace ( board, boardSpace ) {
+	// 遍历棋盘格，将空位加入boardSpace数组,之后用于的generateOneNumber随机生成新数字
+
+	boardSpace = [];
+	var bs_i = 0;
+
+	for (var i = 0; i < 4; i++) {
+		for (var j = 0; j < 4; j++) {
+			if ( board[i][j] == 0 ) {
+				boardSpace[bs_i] = i*4+j;
+				bs_i += 1;
+			}
+		}
+	}
+
+	return boardSpace;
+}
+
+function randSpace ( boardSpace ) {
+	// 从boardSpace中随机一个空位
+	var rand_i = parseInt( Math.floor( Math.random() * boardSpace.length ) );
+
+	return boardSpace[rand_i];
+}
+
 function canMoveLeft ( board ) {
 	// 判断是否能够向左移动
 	for (var i = 0; i < 4; i++) {
@@ -83,6 +119,7 @@ function canMoveRight ( board ) {
 
 function canMoveUp ( board ) {
 	// 判断是否能够向上移动
+
 	for (var i = 1; i < 4; i++) {
 		for (var j = 0; j < 4; j++) {
 			if ( board[i][j] != 0 ) {
@@ -98,6 +135,7 @@ function canMoveUp ( board ) {
 
 function canMoveDown ( board ) {
 	// 判断是否能够向下移动
+
 	for (var i = 2; i >= 0; i--) {
 		for (var j = 0; j < 4; j++) {
 			if ( board[i][j] != 0 ) {
@@ -113,6 +151,7 @@ function canMoveDown ( board ) {
 
 function noBlockHorizontal ( row, col1, col2, board ) {
 	// 判断在水平方向上，从col1到col2是否有障碍（不等于0）
+
 	for (var i = col1+1; i < col2; i++) {
 		if ( board[row][i] != 0 ) {
 			return false;
@@ -124,6 +163,7 @@ function noBlockHorizontal ( row, col1, col2, board ) {
 
 function noBlockVertical ( col, row1, row2, board ) {
 	// 判断在垂直方向上，从row1到row2是否有障碍（不等于0）
+
 	for (var i = row1+1; i < row2; i++) {
 		if ( board[i][col] != 0 ) {
 			return false;
@@ -135,6 +175,7 @@ function noBlockVertical ( col, row1, row2, board ) {
 
 function nomove ( board ) {
 	// 
+
 	if ( canMoveDown(board) || canMoveLeft(board) || 
 		canMoveRight(board) || canMoveUp(board)) {
 		return false;
