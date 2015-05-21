@@ -32,14 +32,16 @@ $(document).ready(function() {
 
 		var deltax = endx - startx;
 		var deltay = endy - starty;
+		var absdx = Math.abs( deltax );
+		var absdy = Math.abs( deltay );
 
-		if ( Math.abs( deltax ) < cellSpace && Math.abs( deltay ) < cellSpace ) {
+		if ( Math.max( absdx, absdy ) > 10 ) {
 			// 解决点击造成移动的bug
 			// console.log("click");
 			return;
 		}
 
-		if ( Math.abs( deltax ) >= Math.abs( deltay ) ) {
+		if ( absdx >= absdy ) {
 			// 水平方向滑动
 			if ( deltax > 0 ) {
 				// 向右滑动
