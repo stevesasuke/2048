@@ -147,8 +147,8 @@ function newgame() {
 	// 初始化棋盘格，在随机的两个格子生成数字
 
 	init();
-	// generateOneNumber();
-	// generateOneNumber();
+	generateOneNumber();
+	generateOneNumber();
 }
 
 function init () {
@@ -171,8 +171,8 @@ function init () {
 		}
 	}
 
-	board[0][0] = 512;
-	board[0][1] = 1024;
+	// board[0][0] = 512;
+	// board[0][1] = 1024;
 
 	updateBoardView();
 
