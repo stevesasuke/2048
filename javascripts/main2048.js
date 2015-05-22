@@ -14,8 +14,8 @@ $(document).ready(function() {
 
 	gridContainer.addEventListener( 'touchstart', function (event) {
 		console.log("into touchstart");
-		startx = event.touches[0].pageX;
-		starty = event.touches[0].pageY;
+		startx = event.touches[0].clientX;
+		starty = event.touches[0].clientY;
 
 		event.preventDefault();
 	});
@@ -27,8 +27,8 @@ $(document).ready(function() {
 
 	gridContainer.addEventListener( 'touchend', function (event) {
 		console.log("into touchend");
-		endx = event.changedTouches[0].pageX;
-		endy = event.changedTouches[0].pageY;
+		endx = event.changedTouches[0].clientX;
+		endy = event.changedTouches[0].clientY;
 
 		var deltax = endx - startx;
 		var deltay = endy - starty;
