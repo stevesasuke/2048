@@ -13,7 +13,8 @@ $(document).ready(function() {
 	var gridContainer = document.getElementById('grid-container');
 
 	gridContainer.addEventListener( 'touchstart', function (event) {
-		console.log("into touchstart");
+		// console.log("into touchstart");
+		alert("touchstart");
 		startx = event.touches[0].clientX;
 		starty = event.touches[0].clientY;
 
@@ -21,12 +22,13 @@ $(document).ready(function() {
 	});
 
 	gridContainer.addEventListener( 'touchmove', function (event) {
-		console.log("into touchmove");
+		// console.log("into touchmove");
 		event.preventDefault();
 	});
 
 	gridContainer.addEventListener( 'touchend', function (event) {
-		console.log("into touchend");
+		// console.log("into touchend");
+		alert("touchend");
 		endx = event.changedTouches[0].clientX;
 		endy = event.changedTouches[0].clientY;
 
