@@ -175,6 +175,7 @@ function init () {
 	// board[0][1] = 1024;
 
 	score = 0;
+	updateScore( score );
 	updateBoardView();
 }
 
