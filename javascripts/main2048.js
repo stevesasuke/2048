@@ -147,8 +147,8 @@ function newgame() {
 	// 初始化棋盘格，在随机的两个格子生成数字
 
 	init();
-	generateOneNumber();
-	generateOneNumber();
+	// generateOneNumber();
+	// generateOneNumber();
 }
 
 function init () {
@@ -170,6 +170,9 @@ function init () {
 			hasConflicted[i][j] = false;
 		}
 	}
+
+	board[0][0] = 512;
+	board[0][1] = 1024;
 
 	updateBoardView();
 
@@ -205,11 +208,19 @@ function updateBoardView () {
 
 				if ( board[i][j] > 64 && board[i][j] < 1024 ) {
 					// 3位数时，将字号调小
-					theNumberCell.css('font-size', '38px');
+					// console.log("333");
+					theNumberCell.css('font-size', 0.5*cellSideLength);
+					// console.log("theNumberCell: ", 0.6*cellSideLength);
 				} 
 				else if ( board[i][j] > 512 ) {
 					// 4位数时，将字号调更小0.0
-					theNumberCell.css('font-size', '36px');
+					// console.log("444");
+					theNumberCell.css('font-size', 0.4*cellSideLength);
+				}
+				else {
+					// 2位数时，恢复
+					console.log("222");
+					theNumberCell.css('font-size', 0.6*cellSideLength);
 				}
 			}
 			hasConflicted[i][j] = false;
@@ -217,7 +228,7 @@ function updateBoardView () {
 	}
 
 	$('.number-cell').css('line-height', cellSideLength+'px');
-	$('.number-cell').css('font-size', 0.6*cellSideLength+'px');	
+	// $('.number-cell').css('font-size', 0.6*cellSideLength+'px');	
 }
 
 function generateOneNumber () {
