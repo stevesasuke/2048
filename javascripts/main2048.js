@@ -174,9 +174,8 @@ function init () {
 	// board[0][0] = 512;
 	// board[0][1] = 1024;
 
-	updateBoardView();
-
 	score = 0;
+	updateBoardView();
 }
 
 function updateBoardView () {
