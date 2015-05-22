@@ -14,7 +14,7 @@ $(document).ready(function() {
 
 	gridContainer.addEventListener( 'touchstart', function (event) {
 		// console.log("into touchstart");
-		alert("touchstart");
+		// alert("touchstart");
 		startx = event.touches[0].clientX;
 		starty = event.touches[0].clientY;
 
@@ -28,7 +28,6 @@ $(document).ready(function() {
 
 	gridContainer.addEventListener( 'touchend', function (event) {
 		// console.log("into touchend");
-		alert("touchend");
 		endx = event.changedTouches[0].clientX;
 		endy = event.changedTouches[0].clientY;
 
@@ -36,10 +35,12 @@ $(document).ready(function() {
 		var deltay = endy - starty;
 		var absdx = Math.abs( deltax );
 		var absdy = Math.abs( deltay );
+		console.log("deltax: ", deltax, "deltay: ", deltay);
 
-		if ( Math.max( absdx, absdy ) > 10 ) {
+
+		if ( absdx < 10 && absdy < 10 ) {
 			// 解决点击造成移动的bug
-			// console.log("click");
+			console.log("click");
 			return;
 		}
 
