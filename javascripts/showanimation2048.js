@@ -7,11 +7,11 @@ function showNumberWithAnimation ( i, j, randNumber) {
 	numberCell.css('background-color', getNumberBackgroundColor( randNumber ));
 	numberCell.css('color', getNumberColor( randNumber ));
 	numberCell.text( randNumber );
+	numberCell.css('fontSize', 0.6*cellSideLength);
 
 	numberCell.animate({
 		width: cellSideLength,
 		height: cellSideLength,
-		fontSize: 0.6*cellSideLength,
 		marginTop: getMarTop( i, j ),
 		marginLeft: getMarLeft( i, j )
 	}, 50);
